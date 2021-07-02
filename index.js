@@ -14,7 +14,7 @@ client.once('ready', () => {
     // Normal enmap with default options
     client.coins = new Enmap({ name: "coins" });
     client.items = new Enmap({ name: "items" });
-    client.staff = ['360783331962650624', '632246754556903477', '397343269345951744'];
+    client.staff = ['360783331962650624', '632246754556903477', '397343269345951744', '599722944218005524'];
 
 });
 
@@ -37,7 +37,6 @@ client.on('message', async (message) => {
             cooldown_daily: Date.now(),
             cooldown_weekly: Date.now(),
             cooldown_mendier: Date.now(),
-            cooldown_rob: Date.now(),
             cooldown_casino: Date.now(),
         });
     } else {
@@ -49,7 +48,6 @@ client.on('message', async (message) => {
             cooldown_daily: userData.cooldown_daily ?? Date.now(),
             cooldown_weekly: userData.cooldown_weekly ?? Date.now(),
             cooldown_mendier: userData.cooldown_mendier ?? Date.now(),
-            cooldown_rob: userData.cooldown_rob ?? Date.now(),
             cooldown_casino: userData.cooldown_casino ?? Date.now(),
         });
     }
@@ -190,8 +188,7 @@ client.on('message', async (message) => {
                 `\nDaily: ${userData.cooldown_daily > Date.now() ? client.remainingTimeText(userData.cooldown_daily - Date.now()) : '`✅ Valid`'}` +
                 `\nWeekly: ${userData.cooldown_weekly > Date.now() ? client.remainingTimeText(userData.cooldown_weekly - Date.now()) : '`✅ Valid`'}` +
                 `\nMendier: ${userData.cooldown_mendier > Date.now() ? client.remainingTimeText(userData.cooldown_mendier - Date.now()) : '`✅ Valid`'}` +
-                `\nCasino: ${userData.cooldown_casino > Date.now() ? client.remainingTimeText(userData.cooldown_casino - Date.now()) : '`✅ Valid`'}` +
-                `\nRob: ${userData.cooldown_rob > Date.now() ? client.remainingTimeText(userData.cooldown_rob - Date.now()) : '`✅ Valid`'}`
+                `\nCasino: ${userData.cooldown_casino > Date.now() ? client.remainingTimeText(userData.cooldown_casino - Date.now()) : '`✅ Valid`'}`
                 // `\n` +
             )
 
@@ -291,7 +288,6 @@ client.on('message', async (message) => {
                 cooldown_daily: Date.now(),
                 cooldown_weekly: Date.now(),
                 cooldown_mendier: Date.now(),
-                cooldown_rob: Date.now(),
                 cooldown_casino: Date.now(),
             });
         }
@@ -329,7 +325,6 @@ client.on('message', async (message) => {
                 cooldown_daily: Date.now(),
                 cooldown_weekly: Date.now(),
                 cooldown_mendier: Date.now(),
-                cooldown_rob: Date.now(),
                 cooldown_casino: Date.now(),
             });
         }
@@ -383,7 +378,7 @@ client.on('message', async (message) => {
         const luckToLoose = Math.random();
 
         if (luckToLoose >= 0.5) {
-            client.coins.set(key, userData.coins + (parseInt(args[0]) * 2), "coins");
+            client.coins.set(key, userData.coins - parseInt(args[0]), "coins");
             return message.channel.send(`Vous avez perdu votre mise soit : **${args[0]}**<a:coins:859440318751440898> !`)
         }
 
@@ -448,18 +443,18 @@ client.on('message', async (message) => {
                         if (item.name === 'nitro') {
                             client.coins.set(key, userData.coins - item.price, "coins");
 
-                            message.member.send(`Vous venez d'acheter un Nitro pour **${item.price}**<a:coins:859440318751440898> !`)
-                            channel.send(`${message.member.user} vient d'acheter : ${item.name}`)
+                            message.member.send(`Vous venez d'acheter un Nitro pour **${item.price}**<a:coins:859440318751440898> !`);
+                            channel.send(`${message.member.user} vient d'acheter : ${item.name}`);
 
                             return message.channel.send(`Contactez un admin`);
 
                         }
                         else if (item.name === 'grade') {
                             client.coins.set(key, userData.coins - item.price, "coins");
-                            message.member.roles.cache.add('852806487016996875')
+                            message.member.roles.add('852806487016996875');
 
-                            message.member.send(`Vous venez d'acheter un grade pour **${item.price}**<a:coins:859440318751440898>!`)
-                            channel.send(`${message.member.user} vient d'acheter : ${item.name}`)
+                            message.member.send(`Vous venez d'acheter un grade pour **${item.price}**<a:coins:859440318751440898>!`);
+                            channel.send(`${message.member.user} vient d'acheter : ${item.name}`);
 
                             return message.channel.send(`Contactez un admin`);
 
@@ -469,7 +464,7 @@ client.on('message', async (message) => {
 
                             client.coins.set(key, (Date.now() + 86400000), "boost_date");
 
-                            message.member.send(`Confirmation d'achat d'un boost de 24h x1.3 pour **${item.price}**<a:coins:859440318751440898> !`)
+                            message.member.send(`Confirmation d'achat d'un boost de 24h x1.3 pour **${item.price}**<a:coins:859440318751440898> !`);
                             channel.send(`${message.member.user} vient d'acheter : ${item.name}`)
                             return message.channel.send(`Boost acheté`);
 
